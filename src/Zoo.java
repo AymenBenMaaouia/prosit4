@@ -1,28 +1,37 @@
 public class Zoo {
 
-    static final int NUMBER_OF_CAGES = 25;
-    Animal[] animals;
-    String name, city;
-    int nbrAnimals;
-
-    public Zoo() {
-    }
+    public static final int NUMBER_OF_CAGES = 25;
+    private Animal[] animals;
+    private String name, city;
+    private int nbrAnimals;
+    private int nbrAquaticAnimals;
 
     public Zoo(String name, String city) {
         animals = new Animal[NUMBER_OF_CAGES];
+        aquaticanimals = new Animal[10];
         setName(name);
         this.city = city;
     }
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
-        if (name != null && !name.isEmpty()) {
+        if (name.isBlank()) {
+            System.out.println("name must contain caractere");
             this.name = name;
-        } else {
-            System.out.println("Name cannot be empty.");
         }
+    }
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setNbrAnimals(int nbrAnimals) {
+        this.nbrAnimals = nbrAnimals;
+    }
+
+    public int getNbrAnimals() {
+        return nbrAnimals;
     }
 
     static Zoo comparerZoo(Zoo z1, Zoo z2) {
@@ -44,41 +53,26 @@ public class Zoo {
         nbrAnimals++;
         return true;
     }
-
-    boolean removeAnimal(Animal animal) {
-        int indexAnimal = searchAnimal(animal);
-        if (indexAnimal == -1)
-            return false;
-        for (int i = indexAnimal; i < nbrAnimals; i++) {
-            animals[i] = animals[i + 1];
-        }
-        animals[nbrAnimals] = null;
-        this.nbrAnimals--;
-        return true;
-    }
-
-    void displayAnimals() {
-        System.out.println("List of animals of " + name + ":");
-        for (int i = 0; i < nbrAnimals; i++) {
-            System.out.println(animals[i]);
+    public void addAquaticAnimal(Aquatic aquatic){
+        if (nbrAquaticAnimals < aquaticAnimals.length){
+            aquaticAnimals[nbrAquaticAnimals] = aquatic;
+            nbrAquaticAnimals++;
+            System.out.println("Aquatic animal added succesfully.");
+        }else{
+            System.out.println("Aquatic animal addition failed: Aquatic animals array is full.");
         }
     }
-
-    int searchAnimal(Animal animal) {
-        int index = -1;
-        for (int i = 0; i < nbrAnimals; i++) {
-            if (animal.name == animals[i].name)
-                return i;
+    public class Aquatic extends Animal{
+        public Aquatic(String species, String name, int age, boolean isMale) {
+            super(species, name, age, isMale);
         }
-        return index;
-    }
-
-    boolean isZooFull() {
-        return nbrAnimals == NUMBER_OF_CAGES;
-    }
-
-    @Override
-    public String toString() {
-        return "Name: " + name + ", City: " + city + ", N° Cages: " + NUMBER_OF_CAGES + " N° animals: " + nbrAnimals;
-    }
-}
+        public boolean equals(Object obj){
+            if (this == obj){
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()){
+                return false;
+            }
+            Aquatic aquatic = (Aquatic) obj;
+            return getName().equals(aquatic.getName())&&
+                    getAge() == aquatic;getAge() &&
